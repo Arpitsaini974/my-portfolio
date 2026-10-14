@@ -786,17 +786,17 @@
                   </div>
                   <div>
                     <span class="block text-slate-400 text-[11px]">Direct WhatsApp</span>
-                    <a href="#" class="whatsapp-link font-semibold hover:text-emerald-400 transition" data-bind="phone">+91 8000795118 / +91 9783563910</a>
+                    <a href="#" class="whatsapp-link font-semibold hover:text-emerald-400 transition break-all sm:break-normal text-xs sm:text-sm" data-bind="phone">+91 8000795118 / +91 9783563910</a>
                   </div>
                 </div>
 
                 <div class="flex items-center space-x-3">
-                  <div class="w-8 h-8 rounded-lg bg-cyan-500/10 text-cyan-400 flex items-center justify-center">
+                  <div class="w-8 h-8 rounded-lg bg-cyan-500/10 text-cyan-400 flex items-center justify-center flex-shrink-0">
                     <i class="fas fa-envelope"></i>
                   </div>
                   <div>
                     <span class="block text-slate-400 text-[11px]">Email Address</span>
-                    <a href="mailto:arpitsaini974@gmail.com" class="font-semibold hover:text-cyan-400 transition" data-bind="email">arpitsaini974@gmail.com</a>
+                    <a href="mailto:arpitsaini974@gmail.com" class="font-semibold hover:text-cyan-400 transition break-all sm:break-normal text-xs sm:text-sm" data-bind="email">arpitsaini974@gmail.com</a>
                   </div>
                 </div>
 
@@ -879,39 +879,39 @@
   </footer>
 
   <!-- CASE STUDY DEEP DIVE MODAL -->
-  <div id="case-study-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 modal-overlay overflow-y-auto">
-    <div class="bg-slate-900 border border-slate-700 rounded-3xl max-w-2xl w-full p-6 sm:p-8 relative shadow-2xl my-8 max-h-[90vh] overflow-y-auto">
+  <div id="case-study-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 modal-overlay overflow-y-auto">
+    <div class="bg-slate-900 border border-slate-700 rounded-2xl sm:rounded-3xl max-w-2xl w-full p-4 sm:p-8 relative shadow-2xl my-4 sm:my-8 max-h-[92vh] overflow-y-auto">
       
       <!-- Close Button -->
-      <button id="close-modal-btn" class="absolute top-5 right-5 w-9 h-9 rounded-full bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white flex items-center justify-center transition">
-        <i class="fas fa-times"></i>
+      <button id="close-modal-btn" class="absolute top-3.5 right-3.5 sm:top-5 sm:right-5 w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white flex items-center justify-center transition z-10">
+        <i class="fas fa-times text-xs sm:text-sm"></i>
       </button>
 
       <!-- Modal Badge & Title -->
-      <div class="mb-4">
-        <span id="modal-badge" class="px-3 py-1 rounded-full text-xs font-semibold bg-emerald-500/10 text-emerald-400 border border-emerald-500/30"></span>
-        <h3 id="modal-title" class="text-2xl font-extrabold text-white font-heading mt-2"></h3>
-        <p id="modal-tagline" class="text-xs sm:text-sm text-slate-400"></p>
+      <div class="mb-3 sm:mb-4 pr-8">
+        <span id="modal-badge" class="px-2.5 py-0.5 sm:px-3 sm:py-1 rounded-full text-[11px] sm:text-xs font-semibold bg-emerald-500/10 text-emerald-400 border border-emerald-500/30"></span>
+        <h3 id="modal-title" class="text-xl sm:text-2xl font-extrabold text-white font-heading mt-2"></h3>
+        <p id="modal-tagline" class="text-xs sm:text-sm text-slate-400 mt-0.5"></p>
       </div>
 
       <!-- Image Preview -->
-      <div class="rounded-xl overflow-hidden h-48 sm:h-56 mb-6 bg-slate-950">
+      <div class="rounded-xl overflow-hidden h-40 sm:h-56 mb-4 sm:mb-6 bg-slate-950">
         <img id="modal-img" src="" alt="Project Preview" class="w-full h-full object-cover" />
       </div>
 
       <!-- Highlights Bar -->
-      <div class="grid grid-cols-3 gap-3 p-4 rounded-xl bg-slate-950/80 border border-slate-800 mb-6 text-center">
+      <div class="grid grid-cols-3 gap-2 sm:gap-3 p-3 sm:p-4 rounded-xl bg-slate-950/80 border border-slate-800 mb-5 sm:mb-6 text-center">
         <div>
-          <div class="text-[10px] text-slate-400">Primary Impact</div>
-          <div id="modal-metric-1" class="text-sm sm:text-base font-extrabold text-emerald-400"></div>
+          <div class="text-[9px] sm:text-[10px] text-slate-400 uppercase">Primary Impact</div>
+          <div id="modal-metric-1" class="text-xs sm:text-base font-extrabold text-emerald-400 mt-0.5"></div>
         </div>
         <div>
-          <div class="text-[10px] text-slate-400">Scale / Volume</div>
-          <div id="modal-metric-2" class="text-sm sm:text-base font-extrabold text-cyan-400"></div>
+          <div class="text-[9px] sm:text-[10px] text-slate-400 uppercase">Scale / Volume</div>
+          <div id="modal-metric-2" class="text-xs sm:text-base font-extrabold text-cyan-400 mt-0.5"></div>
         </div>
         <div>
-          <div class="text-[10px] text-slate-400">Optimization</div>
-          <div id="modal-metric-3" class="text-sm sm:text-base font-extrabold text-purple-400"></div>
+          <div class="text-[9px] sm:text-[10px] text-slate-400 uppercase">Optimization</div>
+          <div id="modal-metric-3" class="text-xs sm:text-base font-extrabold text-purple-400 mt-0.5"></div>
         </div>
       </div>
 

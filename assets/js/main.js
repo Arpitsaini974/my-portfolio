@@ -25,8 +25,6 @@ document.addEventListener("DOMContentLoaded", () => {
   initContactForm();
   initMobileNav();
   initCaseStudyModal();
-  initActivityTicker();
-  initCardSpotlight();
 });
 
 // 1. Populate Personal & Brand Details
@@ -524,57 +522,6 @@ function initMobileNav() {
   });
 }
 
-// 14. Live Client Activity Notification Ticker
-function initActivityTicker() {
-  const activities = [
-    { text: "Just now: New Meta Ads scaling campaign launched (5.2x ROAS target)", icon: "fab fa-meta text-cyan-400" },
-    { text: "12m ago: E-Commerce Store delivered with 99 PageSpeed", icon: "fas fa-bolt text-emerald-400" },
-    { text: "1h ago: 450+ Qualified leads generated at ₹42 CPL", icon: "fas fa-bullseye text-amber-400" },
-    { text: "3h ago: Viral Reel surpassed 1.2M views on Instagram", icon: "fab fa-instagram text-purple-400" }
-  ];
-
-  let currentIndex = 0;
-  const toast = document.createElement("div");
-  toast.className = "activity-toast hidden md:flex cursor-pointer";
-  toast.innerHTML = `
-    <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-ping"></span>
-    <div class="flex items-center space-x-2 text-xs text-slate-200">
-      <i id="ticker-icon" class="${activities[0].icon}"></i>
-      <span id="ticker-text" class="font-medium">${activities[0].text}</span>
-    </div>
-  `;
-  document.body.appendChild(toast);
-
-  setInterval(() => {
-    currentIndex = (currentIndex + 1) % activities.length;
-    const textEl = document.getElementById("ticker-text");
-    const iconEl = document.getElementById("ticker-icon");
-    if (textEl && iconEl) {
-      toast.style.opacity = "0";
-      setTimeout(() => {
-        textEl.textContent = activities[currentIndex].text;
-        iconEl.className = activities[currentIndex].icon;
-        toast.style.opacity = "1";
-      }, 300);
-    }
-  }, 6000);
-}
-
-// 15. Modern Card Spotlight Hover Effect
-function initCardSpotlight() {
-  const cards = document.querySelectorAll(".glass-card");
-  cards.forEach(card => {
-    card.addEventListener("mousemove", (e) => {
-      const rect = card.getBoundingClientRect();
-      const x = e.clientX - rect.left;
-      const y = e.clientY - rect.top;
-      card.style.background = `radial-gradient(400px circle at ${x}px ${y}px, rgba(16, 185, 129, 0.08), rgba(16, 23, 38, 0.75) 60%)`;
-    });
-    card.addEventListener("mouseleave", () => {
-      card.style.background = "";
-    });
-  });
-}
 
 
 

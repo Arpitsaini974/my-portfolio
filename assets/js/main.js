@@ -523,8 +523,12 @@ function initMobileNav() {
   });
 }
 
-// 14. Light / Dark Theme Switcher
+// 14. Light / Dark Theme Switcher (Floating + Navbar)
 function initThemeSwitcher() {
+  const floatingBtn = document.getElementById("floating-theme-btn");
+  const floatingIcon = document.getElementById("floating-theme-icon");
+  const floatingText = document.getElementById("floating-theme-text");
+
   const desktopBtn = document.getElementById("theme-toggle-btn");
   const mobileBtn = document.getElementById("theme-toggle-mobile-btn");
   const desktopIcon = document.getElementById("theme-toggle-icon");
@@ -535,12 +539,16 @@ function initThemeSwitcher() {
   function applyTheme(theme) {
     if (theme === "light") {
       document.body.classList.add("theme-light");
+      if (floatingIcon) floatingIcon.className = "fas fa-moon text-indigo-400";
+      if (floatingText) floatingText.textContent = "Dark Mode";
       if (desktopIcon) desktopIcon.className = "fas fa-moon text-indigo-400";
       if (desktopText) desktopText.textContent = "Dark Mode";
       if (mobileIcon) mobileIcon.className = "fas fa-moon text-indigo-400";
       if (mobileText) mobileText.textContent = "Switch to Dark Theme";
     } else {
       document.body.classList.remove("theme-light");
+      if (floatingIcon) floatingIcon.className = "fas fa-sun text-amber-400";
+      if (floatingText) floatingText.textContent = "Light Mode";
       if (desktopIcon) desktopIcon.className = "fas fa-sun text-amber-400";
       if (desktopText) desktopText.textContent = "Light Mode";
       if (mobileIcon) mobileIcon.className = "fas fa-sun text-amber-400";
@@ -562,6 +570,7 @@ function initThemeSwitcher() {
     applyTheme(isCurrentlyLight ? "dark" : "light");
   }
 
+  if (floatingBtn) floatingBtn.addEventListener("click", toggle);
   if (desktopBtn) desktopBtn.addEventListener("click", toggle);
   if (mobileBtn) mobileBtn.addEventListener("click", toggle);
 }

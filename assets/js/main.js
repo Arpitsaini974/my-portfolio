@@ -25,6 +25,7 @@ document.addEventListener("DOMContentLoaded", () => {
   initContactForm();
   initMobileNav();
   initCaseStudyModal();
+  initHeaderPhotoUpload();
 });
 
 // 1. Populate Personal & Brand Details
@@ -522,6 +523,62 @@ function initMobileNav() {
   });
 }
 
+// 14. 1-Click Header Profile Photo Upload
+function initHeaderPhotoUpload() {
+  const fileInput = document.getElementById('header-photo-input');
+  if (!fileInput) return;
 
+  fileInput.addEventListener('change', (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
 
+    const reader = new FileReader();
+    reader.onload = function(evt) {
+      const img = new Image();
+      img.onload = function() {
+        const canvas = document.createElement('canvas');
+        const MAX_SIZE = 400;
+        let w = img.width;
+        let h = img.height;
 
+        if (w > h) {
+          if (w > MAX_SIZE) {
+            h = Math.round((h * MAX_SIZE) / w);
+            w = MAX_SIZE;
+          }
+        } else {
+          if (h > MAX_SIZE) {
+            w = Math.round((w * MAX_SIZE) / h);
+            h = MAX_SIZE;
+          }
+        }
+
+        canvas.width = w;
+        canvas.height = h;
+        const ctx = canvas.getContext('2d');
+        ctx.drawImage(img, 0, 0, w, h);
+
+        const compressedDataUrl = canvas.toDataURL('image/jpeg', 0.85);
+
+        // Update working data
+        portfolioData.personal.avatar = compressedDataUrl;
+
+        // Save to localStorage
+        try {
+          localStorage.setItem('custom_portfolio_data', JSON.stringify(portfolioData));
+        } catch (err) {
+          console.warn('Could not save to localStorage', err);
+        }
+
+        // Update elements on screen
+        document.querySelectorAll("[data-bind='avatar']").forEach(avatarImg => {
+          avatarImg.src = compressedDataUrl;
+        });
+
+        alert("✅ आपकी प्रोफाइल फोटो सफलतापूर्वक बदल गई है!");
+      };
+      img.src = evt.target.result;
+    };
+    reader.readAsDataURL(file);
+  });
+}

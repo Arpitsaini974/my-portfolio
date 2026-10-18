@@ -138,6 +138,34 @@
       <span id="save-toast-text">सफलतापूर्वक सेव हो गया! आपके लाइव पोर्टफोलियो में बदलाव लागू हो गए हैं।</span>
     </div>
 
+    <!-- REAL-TIME LEADS ALERT BANNER (Visible immediately on dashboard open) -->
+    <div id="top-leads-banner" class="glass-panel rounded-2xl p-6 mb-8 border border-emerald-500/40 relative overflow-hidden shadow-2xl">
+      <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+        <div class="flex items-center space-x-4">
+          <div class="w-12 h-12 rounded-2xl bg-gradient-to-tr from-emerald-500 to-cyan-500 flex items-center justify-center text-slate-950 text-xl font-bold flex-shrink-0 shadow-lg shadow-emerald-500/20">
+            <i class="fas fa-bell"></i>
+          </div>
+          <div>
+            <div class="flex items-center space-x-2.5">
+              <span class="text-xs uppercase tracking-wider font-extrabold text-emerald-400">Website Inquiries (क्लाइंट फॉर्म)</span>
+              <span id="top-leads-badge" class="px-2.5 py-0.5 rounded-full text-[11px] bg-emerald-500 text-slate-950 font-black shadow animate-pulse">0 Leads</span>
+            </div>
+            <h3 id="top-leads-headline" class="text-base sm:text-lg font-bold text-white mt-0.5">वेबसाइट से आए नए फॉर्म मैसेजेस</h3>
+          </div>
+        </div>
+
+        <button onclick="switchTab('leads')" class="w-full md:w-auto px-5 py-2.5 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-extrabold text-xs transition shadow-lg shadow-emerald-500/25 flex items-center justify-center space-x-2">
+          <span>View All Inquiries (पूरा इनबॉक्स खोलें)</span>
+          <i class="fas fa-arrow-right text-[11px]"></i>
+        </button>
+      </div>
+
+      <!-- Quick Cards of Recent Leads -->
+      <div id="top-leads-cards" class="mt-5 pt-4 border-t border-slate-800 grid grid-cols-1 md:grid-cols-3 gap-3.5">
+        <!-- Rendered by JS -->
+      </div>
+    </div>
+
     <!-- Main Navigation Tabs -->
     <div class="flex flex-wrap gap-2 mb-8 p-1.5 rounded-2xl glass-panel border border-slate-800">
       <button class="admin-tab active px-5 py-3 rounded-xl text-xs font-bold text-slate-300 transition flex items-center space-x-2" onclick="switchTab('profile')">
@@ -461,10 +489,13 @@
       document.querySelectorAll('.admin-tab').forEach(el => el.classList.remove('active'));
 
       const targetTab = document.getElementById(`tab-${tabName}`);
-      if (targetTab) targetTab.classList.remove('hidden');
+      if (targetTab) {
+        targetTab.classList.remove('hidden');
+        window.scrollTo({ top: targetTab.offsetTop - 100, behavior: 'smooth' });
+      }
 
-      // Set active button
-      event.currentTarget.classList.add('active');
+      const activeBtn = document.querySelector(`.admin-tab[onclick*="'${tabName}'"]`);
+      if (activeBtn) activeBtn.classList.add('active');
     }
 
     // Populate all fields from currentData
@@ -891,9 +922,60 @@ const portfolioData = ${JSON.stringify(currentData, null, 2)};
     function renderLeadsInbox() {
       const container = document.getElementById('leads-table-container');
       const badge = document.getElementById('leads-count-badge');
+      const topBadge = document.getElementById('top-leads-badge');
+      const topHeadline = document.getElementById('top-leads-headline');
+      const topCardsContainer = document.getElementById('top-leads-cards');
       const leads = JSON.parse(localStorage.getItem('portfolio_leads') || '[]');
 
       if (badge) badge.textContent = leads.length;
+      if (topBadge) topBadge.textContent = `${leads.length} ${leads.length === 1 ? 'Lead' : 'Leads'}`;
+
+      if (topHeadline) {
+        topHeadline.textContent = leads.length > 0 
+          ? `🎉 वेबसाइट पर ${leads.length} नए फॉर्म सबमिशन आए हैं!` 
+          : 'अभी तक कोई नया मैसेज नहीं आया है';
+      }
+
+      // Populate Top Alert Preview Cards (Latest 3)
+      if (topCardsContainer) {
+        if (leads.length === 0) {
+          topCardsContainer.innerHTML = `
+            <div class="md:col-span-3 text-xs text-slate-400 py-2 flex items-center space-x-2">
+              <i class="fas fa-check-circle text-emerald-400"></i>
+              <span>जब भी कोई क्लाइंट आपकी वेबसाइट पर संपर्क फ़ॉर्म भरेगा, वह तुरंत यहाँ और नीचे इनबॉक्स में दिखाई देगा।</span>
+            </div>
+          `;
+        } else {
+          const recentLeads = leads.slice(0, 3);
+          topCardsContainer.innerHTML = recentLeads.map(l => `
+            <div class="p-4 rounded-xl bg-slate-900/90 border border-emerald-500/30 flex flex-col justify-between space-y-2.5 shadow-md">
+              <div class="flex items-center justify-between">
+                <span class="font-bold text-white text-xs flex items-center space-x-1.5">
+                  <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                  <span>${l.name}</span>
+                </span>
+                <span class="text-[10px] text-slate-400">${l.date}</span>
+              </div>
+              <div class="text-[11px] text-cyan-400 font-semibold truncate">
+                <i class="fas fa-tag text-[9px] mr-1"></i>${l.service}
+              </div>
+              <div class="text-[11px] text-slate-300 line-clamp-1 italic">
+                "${l.message || 'No extra message'}"
+              </div>
+              <div class="pt-2 border-t border-slate-800 flex items-center justify-between">
+                <a href="tel:${l.phone.replace(/[^0-9+]/g, '')}" class="text-[11px] text-emerald-400 font-mono hover:underline flex items-center space-x-1">
+                  <i class="fas fa-phone-alt text-[9px]"></i>
+                  <span>${l.phone}</span>
+                </a>
+                <a href="https://wa.me/${l.phone.replace(/[^0-9]/g, '')}?text=${encodeURIComponent('Hi ' + l.name + '! I received your inquiry on my portfolio. Let us discuss your project!')}" target="_blank" class="px-2.5 py-1 rounded-lg bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-black text-[10px] flex items-center space-x-1 transition shadow">
+                  <i class="fab fa-whatsapp"></i>
+                  <span>Reply</span>
+                </a>
+              </div>
+            </div>
+          `).join('');
+        }
+      }
 
       if (!container) return;
 

@@ -476,26 +476,49 @@ body.theme-light .font-heading {
   color: #0f172a !important;
 }
 
-body.theme-light .text-white {
+/* Base text contrast */
+body.theme-light .text-slate-100 { color: #1e293b !important; }
+body.theme-light .text-slate-200 { color: #334155 !important; }
+body.theme-light .text-slate-300 { color: #475569 !important; }
+body.theme-light .text-slate-400 { color: #64748b !important; }
+
+/* Text in cards */
+body.theme-light .glass-card h3,
+body.theme-light .glass-card h4,
+body.theme-light .glass-card-static h3,
+body.theme-light .glass-card-static h4 {
   color: #0f172a !important;
 }
-body.theme-light .text-slate-100 {
-  color: #1e293b !important;
-}
-body.theme-light .text-slate-200 {
-  color: #334155 !important;
-}
-body.theme-light .text-slate-300 {
+
+body.theme-light .glass-card p,
+body.theme-light .glass-card-static p {
   color: #475569 !important;
 }
-body.theme-light .text-slate-400 {
-  color: #64748b !important;
+
+/* Gradients in light mode (Rich contrast) */
+body.theme-light .gradient-text-emerald {
+  background: linear-gradient(135deg, #059669 0%, #047857 100%) !important;
+  -webkit-background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+}
+body.theme-light .gradient-text-meta {
+  background: linear-gradient(135deg, #0284c7 0%, #1d4ed8 100%) !important;
+  -webkit-background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
 }
 
+/* Navbar */
 body.theme-light header {
   background-color: rgba(255, 255, 255, 0.94) !important;
   border-color: #dce3eb !important;
   box-shadow: 0 2px 10px rgba(15, 23, 42, 0.03) !important;
+}
+
+body.theme-light nav a {
+  color: #475569 !important;
+}
+body.theme-light nav a:hover {
+  color: #059669 !important;
 }
 
 body.theme-light #mobile-nav-drawer {
@@ -506,9 +529,10 @@ body.theme-light .mobile-nav-link {
   color: #334155 !important;
 }
 body.theme-light .mobile-nav-link:hover {
-  color: #10b981 !important;
+  color: #059669 !important;
 }
 
+/* Cards */
 body.theme-light .glass-card,
 body.theme-light .glass-card-static {
   background: #ffffff !important;
@@ -523,6 +547,7 @@ body.theme-light .glass-card:hover {
   box-shadow: 0 14px 28px -6px rgba(15, 23, 42, 0.09) !important;
 }
 
+/* Section backgrounds */
 body.theme-light .bg-slate-900,
 body.theme-light .bg-slate-950,
 body.theme-light .bg-slate-900\/90,
@@ -551,6 +576,83 @@ body.theme-light .border-slate-900 {
   border-color: #dce3eb !important;
 }
 
+/* All secondary buttons (View Case Study, package buttons, etc.) */
+body.theme-light button.bg-slate-800,
+body.theme-light button[class*="bg-slate-800"],
+body.theme-light a.bg-slate-800,
+body.theme-light a[class*="bg-slate-800"],
+body.theme-light a.bg-slate-900,
+body.theme-light a[class*="bg-slate-900"] {
+  background-color: #ffffff !important;
+  border: 1px solid #cbd5e1 !important;
+  color: #0f172a !important;
+  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.05);
+}
+body.theme-light button.bg-slate-800:hover,
+body.theme-light button[class*="bg-slate-800"]:hover,
+body.theme-light a.bg-slate-800:hover,
+body.theme-light a[class*="bg-slate-800"]:hover,
+body.theme-light a.bg-slate-900:hover,
+body.theme-light a[class*="bg-slate-900"]:hover {
+  background-color: #f1f5f9 !important;
+  border-color: #10b981 !important;
+  color: #059669 !important;
+}
+
+/* Primary Green Action Buttons - preserve dark text */
+body.theme-light .bg-emerald-500,
+body.theme-light [class*="from-emerald-500"] {
+  color: #090d16 !important;
+}
+body.theme-light .bg-emerald-500 span,
+body.theme-light [class*="from-emerald-500"] span {
+  color: #090d16 !important;
+}
+body.theme-light .bg-emerald-500 i,
+body.theme-light [class*="from-emerald-500"] i {
+  color: #090d16 !important;
+}
+
+/* Project tags */
+body.theme-light span.bg-slate-800 {
+  background-color: #f1f5f9 !important;
+  border: 1px solid #cbd5e1 !important;
+  color: #334155 !important;
+}
+
+/* Service icon boxes */
+body.theme-light div[class*="bg-slate-800"] {
+  background-color: #f1f5f9 !important;
+  border-color: #cbd5e1 !important;
+}
+
+/* Metrics inside project cards */
+body.theme-light .grid-cols-2[class*="bg-slate-950"] {
+  background-color: #f8fafc !important;
+  border: 1px solid #e2e8f0 !important;
+}
+
+/* PROTECT IMAGE OVERLAYS & CAPTIONS - Must stay crisp white on dark photos */
+body.theme-light .drop-shadow,
+body.theme-light [class*="bg-gradient-to-t"] ~ div span,
+body.theme-light [class*="bg-gradient-to-t"] ~ div strong,
+body.theme-light [class*="bg-gradient-to-t"] ~ div div {
+  color: #ffffff !important;
+}
+body.theme-light [class*="bg-slate-900/90"].backdrop-blur-md strong {
+  color: #ffffff !important;
+}
+
+/* Hover link fixes - rich emerald */
+body.theme-light .group:hover .group-hover\:text-emerald-400 {
+  color: #059669 !important;
+}
+body.theme-light a.hover\:text-emerald-400:hover,
+body.theme-light button.hover\:text-emerald-400:hover {
+  color: #059669 !important;
+}
+
+/* Inputs & Forms */
 body.theme-light input,
 body.theme-light select,
 body.theme-light textarea {
@@ -567,72 +669,93 @@ body.theme-light select:focus,
 body.theme-light textarea:focus {
   border-color: #10b981 !important;
   background-color: #ffffff !important;
+  box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.15) !important;
+}
+body.theme-light option {
+  background-color: #ffffff !important;
+  color: #0f172a !important;
 }
 
+/* Browser window frames */
 body.theme-light .hero-tech-dock {
   background: #ffffff !important;
   border-color: #dce3eb !important;
   box-shadow: 0 16px 36px -8px rgba(15, 23, 42, 0.07) !important;
 }
-
 body.theme-light .browser-chrome {
   background: #f1f5f9 !important;
   border-color: #dce3eb !important;
 }
-
 body.theme-light .browser-url-pill {
   background: #ffffff !important;
   border-color: #cbd5e1 !important;
   color: #64748b !important;
 }
 
+/* Status Pill */
 body.theme-light .status-pill {
   background: rgba(16, 185, 129, 0.1) !important;
   border-color: rgba(16, 185, 129, 0.3) !important;
   color: #047857 !important;
 }
 
+/* Before / After */
 body.theme-light .comparison-card-before {
   background: #fef2f2 !important;
   border-color: #fecaca !important;
 }
-
 body.theme-light .comparison-card-after {
   background: #f0fdf4 !important;
   border-color: #bbf7d0 !important;
   box-shadow: 0 4px 16px rgba(16, 185, 129, 0.08) !important;
 }
 
+/* Filter buttons */
+body.theme-light #projects [class*="bg-slate-900"] {
+  background-color: #e2e8f0 !important;
+  border-color: #cbd5e1 !important;
+}
 body.theme-light .filter-btn {
-  color: #64748b !important;
+  color: #475569 !important;
+}
+body.theme-light .filter-btn:hover {
+  color: #0f172a !important;
 }
 body.theme-light .filter-btn.active {
-  background: #10b981 !important;
+  background-color: #10b981 !important;
   color: #ffffff !important;
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.35) !important;
 }
 
+/* Ads proof table */
 body.theme-light .ads-table tr {
   border-color: #dce3eb !important;
 }
 body.theme-light .ads-table tr:hover {
   background-color: #f1f5f9 !important;
 }
+body.theme-light .ads-table td span.text-white {
+  color: #0f172a !important;
+}
+body.theme-light .ads-table td .text-slate-200 {
+  color: #1e293b !important;
+}
 
+/* Footer */
 body.theme-light footer {
   background-color: #ffffff !important;
   border-color: #dce3eb !important;
   color: #64748b !important;
 }
 
+/* Modal */
 body.theme-light .modal-overlay {
   background: rgba(15, 23, 42, 0.6) !important;
 }
-
 body.theme-light #case-study-modal > div {
   background-color: #ffffff !important;
   border-color: #dce3eb !important;
 }
-
 body.theme-light #close-modal-btn {
   background-color: #f1f5f9 !important;
   color: #475569 !important;
@@ -641,20 +764,9 @@ body.theme-light #close-modal-btn:hover {
   background-color: #e2e8f0 !important;
   color: #0f172a !important;
 }
-
-body.theme-light .theme-switch-pill {
-  background: rgba(255, 255, 255, 0.92) !important;
-  border: 1px solid #cbd5e1 !important;
-  color: #0f172a !important;
-  box-shadow: 0 10px 25px -4px rgba(15, 23, 42, 0.12), 0 0 1px 1px rgba(0, 0, 0, 0.05) !important;
+body.theme-light #case-study-modal .grid[class*="bg-slate-950"] {
+  background-color: #f8fafc !important;
+  border: 1px solid #e2e8f0 !important;
 }
 
-body.theme-light .theme-switch-pill:hover {
-  border-color: #10b981 !important;
-  box-shadow: 0 14px 30px -4px rgba(16, 185, 129, 0.22) !important;
-}
-
-body.theme-light .theme-icon-box {
-  background: #f1f5f9 !important;
-}
 

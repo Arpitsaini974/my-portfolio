@@ -56,10 +56,12 @@
   <header class="sticky top-0 z-50 backdrop-blur-xl bg-[#0a0e17]/80 border-b border-slate-800/80">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
       
-      <!-- Logo / Name with Avatar -->
+      <!-- Logo / Name -->
       <a href="#" class="flex items-center space-x-3 group">
-        <div class="relative w-10 h-10 rounded-xl bg-gradient-to-tr from-emerald-500 to-cyan-500 p-0.5 flex items-center justify-center shadow-lg shadow-emerald-500/20 group-hover:scale-105 transition overflow-hidden flex-shrink-0">
-          <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=400&auto=format&fit=crop&q=80" alt="Arpit Kumar Saini" data-bind="avatar" class="w-full h-full rounded-[10px] object-cover" />
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-emerald-500 to-cyan-500 p-0.5 flex items-center justify-center shadow-lg shadow-emerald-500/20 group-hover:scale-105 transition">
+          <div class="w-full h-full bg-slate-950 rounded-[10px] flex items-center justify-center font-heading font-extrabold text-white text-base">
+            AS
+          </div>
         </div>
         <div>
           <span class="font-heading font-bold text-lg text-white group-hover:text-emerald-400 transition" data-bind="name">Arpit Kumar Saini</span>
@@ -120,26 +122,6 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
       
       <div class="max-w-4xl mx-auto text-center">
-        <!-- Profile Photo / Avatar with 1-Click Upload -->
-        <div class="flex items-center justify-center mb-6">
-          <div class="relative group cursor-pointer" onclick="document.getElementById('direct-photo-input').click()" title="Click to Change Photo (फोटो बदलने के लिए क्लिक करें)">
-            <div class="w-24 h-24 sm:w-28 sm:h-28 rounded-full p-1 bg-gradient-to-tr from-emerald-500 via-cyan-500 to-indigo-500 shadow-2xl shadow-emerald-500/30 group-hover:scale-105 transition duration-300 relative overflow-hidden">
-              <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=400&auto=format&fit=crop&q=80" alt="Arpit Kumar Saini" data-bind="avatar" class="w-full h-full rounded-full object-cover border-2 border-slate-950" />
-              <!-- Hover Camera Overlay -->
-              <div class="absolute inset-0 bg-slate-950/70 rounded-full flex flex-col items-center justify-center opacity-0 group-hover:opacity-100 transition duration-200 text-white text-[10px] font-bold">
-                <i class="fas fa-camera text-base text-emerald-400 mb-0.5"></i>
-                <span>Change</span>
-              </div>
-            </div>
-            <!-- Online status badge -->
-            <span class="absolute bottom-1 right-1 w-6 h-6 bg-emerald-500 border-2 border-slate-950 rounded-full flex items-center justify-center shadow-lg pointer-events-none" title="Online & Available for Projects">
-              <span class="w-2.5 h-2.5 rounded-full bg-slate-950 animate-pulse"></span>
-            </span>
-          </div>
-          <!-- Hidden file input for 1-click photo upload -->
-          <input type="file" id="direct-photo-input" accept="image/*" class="hidden" />
-        </div>
-
         <!-- Status Pill -->
         <div class="inline-flex items-center space-x-2 mb-6">
           <div class="status-pill">
@@ -890,12 +872,8 @@
       <div>
         <span class="text-white font-bold text-sm" data-bind="name">Arpit Kumar Saini</span> &mdash; Full-Stack Web Developer &amp; Meta Ads Growth Partner.
       </div>
-      <div class="flex items-center space-x-4">
-        <span>&copy; 2026 All Rights Reserved. Engineered for High Conversions &amp; Peak ROAS.</span>
-        <a href="admin.html" class="inline-flex items-center space-x-1.5 px-3 py-1.5 rounded-lg bg-slate-900 hover:bg-slate-800 text-slate-400 hover:text-emerald-400 border border-slate-800 transition" title="Open Admin Dashboard">
-          <i class="fas fa-lock text-[10px]"></i>
-          <span>Admin</span>
-        </a>
+      <div>
+        &copy; 2026 All Rights Reserved. Engineered for High Conversions &amp; Peak ROAS.
       </div>
     </div>
   </footer>

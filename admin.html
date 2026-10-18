@@ -1,0 +1,830 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin Dashboard | Arpit Kumar Saini Portfolio Manager</title>
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              emerald: '#10b981',
+              cyan: '#06b6d4',
+              dark: '#0a0e17',
+              card: '#101726'
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet" />
+
+  <style>
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background-color: #070a12;
+      color: #f3f4f6;
+    }
+    h1, h2, h3, h4, .font-heading {
+      font-family: 'Space Grotesk', sans-serif;
+    }
+    .glass-panel {
+      background: rgba(16, 23, 38, 0.85);
+      backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+    .admin-tab.active {
+      background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+      color: #060910;
+      font-weight: 700;
+      box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
+    }
+    input, textarea, select {
+      background: #0d1322 !important;
+      border: 1px solid rgba(255, 255, 255, 0.12) !important;
+      color: #ffffff !important;
+    }
+    input:focus, textarea:focus, select:focus {
+      border-color: #10b981 !important;
+      outline: none !important;
+      box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.25) !important;
+    }
+  </style>
+</head>
+<body class="min-h-screen pb-20 selection:bg-emerald-500 selection:text-slate-950">
+
+  <!-- ================= AUTH SCREEN (PIN GATE) ================= -->
+  <div id="auth-screen" class="fixed inset-0 z-50 flex items-center justify-center bg-[#070a12]/95 backdrop-blur-xl p-4">
+    <div class="glass-panel p-8 rounded-3xl max-w-md w-full border border-emerald-500/30 text-center shadow-2xl">
+      <div class="w-16 h-16 rounded-2xl bg-gradient-to-tr from-emerald-500 to-cyan-500 p-0.5 mx-auto mb-5 shadow-lg shadow-emerald-500/20 flex items-center justify-center">
+        <div class="w-full h-full bg-slate-950 rounded-[14px] flex items-center justify-center text-emerald-400 text-2xl font-bold">
+          <i class="fas fa-lock"></i>
+        </div>
+      </div>
+      <h2 class="text-2xl font-extrabold text-white font-heading mb-2">Portfolio Admin Panel</h2>
+      <p class="text-slate-400 text-xs mb-6">अपने पोर्टफोलियो में बदलाव करने के लिए अपना सिक्योरिटी पिन दर्ज करें। (डिफ़ॉल्ट पिन: <strong class="text-emerald-400">1234</strong>)</p>
+      
+      <form id="pin-form" class="space-y-4">
+        <div>
+          <input type="password" id="admin-pin" placeholder="Enter PIN (e.g. 1234)" maxlength="8" required class="w-full px-4 py-3.5 rounded-xl text-center text-lg tracking-widest font-bold" />
+        </div>
+        <p id="pin-error" class="hidden text-xs text-red-400 font-semibold">गलत पिन! कृपया 1234 दर्ज करें।</p>
+        <button type="submit" class="w-full py-3.5 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-500 hover:brightness-110 text-slate-950 font-extrabold text-sm transition shadow-lg shadow-emerald-500/20">
+          Unlock Dashboard (खोलें)
+        </button>
+        <div class="pt-2">
+          <a href="index.html" class="text-xs text-slate-400 hover:text-white transition">&larr; Return to Portfolio Website</a>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ================= ADMIN MAIN DASHBOARD ================= -->
+  <div id="admin-dashboard" class="hidden max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8">
+    
+    <!-- Top Header Bar -->
+    <header class="glass-panel rounded-2xl p-5 mb-8 flex flex-col md:flex-row items-center justify-between gap-4 border border-slate-800">
+      <div class="flex items-center space-x-4">
+        <div class="relative w-12 h-12 rounded-xl bg-gradient-to-tr from-emerald-500 to-cyan-500 p-0.5 flex items-center justify-center shadow-lg shadow-emerald-500/20 overflow-hidden">
+          <img id="nav-preview-avatar" src="" alt="Avatar" class="w-full h-full rounded-[10px] object-cover" />
+        </div>
+        <div>
+          <h1 class="text-xl font-bold font-heading text-white flex items-center space-x-2">
+            <span>Portfolio Control Center</span>
+            <span class="px-2 py-0.5 rounded text-[10px] bg-emerald-500/10 text-emerald-400 border border-emerald-500/30">Live Admin</span>
+          </h1>
+          <p class="text-xs text-slate-400">यहाँ से आप फोटो, नाम, प्रोजेक्ट्स और रेट्स सब कुछ तुरंत बदल सकते हैं।</p>
+        </div>
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="flex flex-wrap items-center gap-2.5">
+        <a href="index.html" target="_blank" class="px-4 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-slate-300 hover:text-white text-xs font-semibold border border-slate-700 transition flex items-center space-x-1.5">
+          <span>View Live Site</span>
+          <i class="fas fa-external-link-alt text-[10px]"></i>
+        </a>
+        <button onclick="downloadDataJs()" class="px-4 py-2.5 rounded-xl bg-cyan-500/10 hover:bg-cyan-500 text-cyan-400 hover:text-slate-950 text-xs font-bold border border-cyan-500/30 transition flex items-center space-x-1.5" title="Download updated data.js for GitHub/Vercel">
+          <i class="fas fa-download"></i>
+          <span>Download data.js</span>
+        </button>
+        <button onclick="copyDataCode()" class="px-4 py-2.5 rounded-xl bg-purple-500/10 hover:bg-purple-500 text-purple-400 hover:text-white text-xs font-bold border border-purple-500/30 transition flex items-center space-x-1.5" title="Copy updated code to clipboard">
+          <i class="fas fa-copy"></i>
+          <span>Copy Code</span>
+        </button>
+        <button onclick="saveAllChanges()" class="px-5 py-2.5 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-500 hover:brightness-110 text-slate-950 text-xs font-extrabold transition shadow-lg shadow-emerald-500/25 flex items-center space-x-1.5">
+          <i class="fas fa-save"></i>
+          <span>Save Changes (सेव करें)</span>
+        </button>
+        <button onclick="lockAdmin()" class="p-2.5 rounded-xl bg-slate-900 hover:bg-red-500/20 text-slate-400 hover:text-red-400 border border-slate-800 transition" title="Logout / Lock">
+          <i class="fas fa-sign-out-alt"></i>
+        </button>
+      </div>
+    </header>
+
+    <!-- Save Notification Toast -->
+    <div id="save-toast" class="hidden fixed top-6 right-6 z-50 p-4 rounded-2xl bg-emerald-500 text-slate-950 font-bold text-sm shadow-2xl flex items-center space-x-3 transition">
+      <i class="fas fa-check-circle text-lg"></i>
+      <span id="save-toast-text">सफलतापूर्वक सेव हो गया! आपके लाइव पोर्टफोलियो में बदलाव लागू हो गए हैं।</span>
+    </div>
+
+    <!-- Main Navigation Tabs -->
+    <div class="flex flex-wrap gap-2 mb-8 p-1.5 rounded-2xl glass-panel border border-slate-800">
+      <button class="admin-tab active px-5 py-3 rounded-xl text-xs font-bold text-slate-300 transition flex items-center space-x-2" onclick="switchTab('profile')">
+        <i class="fas fa-user-edit"></i>
+        <span>Profile &amp; Photo</span>
+      </button>
+      <button class="admin-tab px-5 py-3 rounded-xl text-xs font-bold text-slate-300 transition flex items-center space-x-2" onclick="switchTab('stats')">
+        <i class="fas fa-chart-line"></i>
+        <span>Stats &amp; Metrics</span>
+      </button>
+      <button class="admin-tab px-5 py-3 rounded-xl text-xs font-bold text-slate-300 transition flex items-center space-x-2" onclick="switchTab('projects')">
+        <i class="fas fa-laptop-code"></i>
+        <span>Projects &amp; Case Studies</span>
+      </button>
+      <button class="admin-tab px-5 py-3 rounded-xl text-xs font-bold text-slate-300 transition flex items-center space-x-2" onclick="switchTab('ads')">
+        <i class="fab fa-meta"></i>
+        <span>Meta Ads Proof</span>
+      </button>
+      <button class="admin-tab px-5 py-3 rounded-xl text-xs font-bold text-slate-300 transition flex items-center space-x-2" onclick="switchTab('packages')">
+        <i class="fas fa-tags"></i>
+        <span>Packages &amp; Retainers</span>
+      </button>
+      <button class="admin-tab px-5 py-3 rounded-xl text-xs font-bold text-slate-300 transition flex items-center space-x-2" onclick="switchTab('testimonials')">
+        <i class="fas fa-star"></i>
+        <span>Reviews &amp; FAQs</span>
+      </button>
+    </div>
+
+    <!-- ================= TAB 1: PROFILE & PHOTO ================= -->
+    <div id="tab-profile" class="tab-content space-y-6">
+      
+      <!-- Photo Upload & Preview Card -->
+      <div class="glass-panel rounded-2xl p-6 border border-emerald-500/20">
+        <h3 class="text-lg font-bold font-heading text-white mb-4 flex items-center space-x-2">
+          <i class="fas fa-camera text-emerald-400"></i>
+          <span>Profile Photo / Avatar (अपनी फोटो लगाएं)</span>
+        </h3>
+
+        <div class="flex flex-col sm:flex-row items-center gap-6">
+          <div class="relative w-28 h-28 rounded-full p-1 bg-gradient-to-tr from-emerald-500 via-cyan-500 to-indigo-500 shadow-xl shadow-emerald-500/20 flex-shrink-0">
+            <img id="avatar-preview-img" src="" alt="Avatar Preview" class="w-full h-full rounded-full object-cover border-2 border-slate-950" />
+          </div>
+
+          <div class="space-y-3 flex-1 w-full">
+            <div>
+              <label class="block text-xs font-semibold text-slate-300 mb-1">Option A: अपने कंप्यूटर/फ़ोन से फोटो अपलोड करें</label>
+              <input type="file" id="avatar-file-input" accept="image/*" class="w-full text-xs text-slate-400 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-bold file:bg-emerald-500 file:text-slate-950 hover:file:brightness-110 cursor-pointer" />
+            </div>
+
+            <div>
+              <label class="block text-xs font-semibold text-slate-300 mb-1">Option B: या फोटो का URL / लिंक डालें</label>
+              <input type="text" id="avatar-url-input" placeholder="e.g. assets/images/myphoto.jpg or https://..." class="w-full px-4 py-2.5 rounded-xl text-xs" />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Basic Info -->
+      <div class="glass-panel rounded-2xl p-6 border border-slate-800">
+        <h3 class="text-lg font-bold font-heading text-white mb-4 flex items-center space-x-2">
+          <i class="fas fa-id-card text-cyan-400"></i>
+          <span>Basic Details &amp; Tagline</span>
+        </h3>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div>
+            <label class="block text-xs font-semibold text-slate-300 mb-1.5">Full Name (आपका नाम)</label>
+            <input type="text" id="field-name" class="w-full px-4 py-3 rounded-xl text-sm" />
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-slate-300 mb-1.5">Professional Title</label>
+            <input type="text" id="field-title" class="w-full px-4 py-3 rounded-xl text-sm" />
+          </div>
+          <div class="md:col-span-2">
+            <label class="block text-xs font-semibold text-slate-300 mb-1.5">Hero Tagline</label>
+            <textarea id="field-tagline" rows="2" class="w-full px-4 py-3 rounded-xl text-sm"></textarea>
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-slate-300 mb-1.5">Availability Status Badge</label>
+            <input type="text" id="field-availability" class="w-full px-4 py-3 rounded-xl text-sm" />
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-slate-300 mb-1.5">Location</label>
+            <input type="text" id="field-location" class="w-full px-4 py-3 rounded-xl text-sm" />
+          </div>
+        </div>
+      </div>
+
+      <!-- Contact & WhatsApp Details -->
+      <div class="glass-panel rounded-2xl p-6 border border-slate-800">
+        <h3 class="text-lg font-bold font-heading text-white mb-4 flex items-center space-x-2">
+          <i class="fab fa-whatsapp text-emerald-400"></i>
+          <span>Contact &amp; WhatsApp Links</span>
+        </h3>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div>
+            <label class="block text-xs font-semibold text-slate-300 mb-1.5">Phone Numbers Displayed (फ़ोन नंबर)</label>
+            <input type="text" id="field-phone" class="w-full px-4 py-3 rounded-xl text-sm" />
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-slate-300 mb-1.5">WhatsApp Direct Number (बिना '+' के, उदा. 919783563910)</label>
+            <input type="text" id="field-whatsapp" class="w-full px-4 py-3 rounded-xl text-sm" />
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-slate-300 mb-1.5">Email Address</label>
+            <input type="email" id="field-email" class="w-full px-4 py-3 rounded-xl text-sm" />
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-slate-300 mb-1.5">LinkedIn Profile Link</label>
+            <input type="text" id="field-linkedin" class="w-full px-4 py-3 rounded-xl text-sm" />
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-slate-300 mb-1.5">Instagram Profile Link</label>
+            <input type="text" id="field-instagram" class="w-full px-4 py-3 rounded-xl text-sm" />
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-slate-300 mb-1.5">GitHub Profile Link</label>
+            <input type="text" id="field-github" class="w-full px-4 py-3 rounded-xl text-sm" />
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ================= TAB 2: STATS & METRICS ================= -->
+    <div id="tab-stats" class="tab-content hidden space-y-6">
+      <div class="glass-panel rounded-2xl p-6 border border-slate-800">
+        <h3 class="text-lg font-bold font-heading text-white mb-4 flex items-center space-x-2">
+          <i class="fas fa-tachometer-alt text-emerald-400"></i>
+          <span>Hero Impact Statistics (हीरो सेक्शन के 4 मुख्य आंकड़े)</span>
+        </h3>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6" id="stats-form-list">
+          <!-- Populated by JS -->
+        </div>
+      </div>
+    </div>
+
+    <!-- ================= TAB 3: PROJECTS ================= -->
+    <div id="tab-projects" class="tab-content hidden space-y-6">
+      <div class="glass-panel rounded-2xl p-6 border border-slate-800">
+        <div class="flex items-center justify-between mb-6">
+          <div>
+            <h3 class="text-lg font-bold font-heading text-white">Featured Projects &amp; Case Studies</h3>
+            <p class="text-xs text-slate-400">आप किसी भी प्रोजेक्ट का नाम, फोटो, मेट्रिक्स और रिजल्ट्स यहाँ से बदल सकते हैं।</p>
+          </div>
+          <button onclick="addNewProject()" class="px-4 py-2.5 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold text-xs flex items-center space-x-1.5 transition">
+            <i class="fas fa-plus"></i>
+            <span>Add New Project</span>
+          </button>
+        </div>
+
+        <div id="projects-admin-list" class="space-y-6">
+          <!-- Populated by JS -->
+        </div>
+      </div>
+    </div>
+
+    <!-- ================= TAB 4: META ADS PROOF ================= -->
+    <div id="tab-ads" class="tab-content hidden space-y-6">
+      <div class="glass-panel rounded-2xl p-6 border border-slate-800">
+        <h3 class="text-lg font-bold font-heading text-white mb-4 flex items-center space-x-2">
+          <i class="fab fa-meta text-blue-400"></i>
+          <span>Live Ads Manager Verification Numbers</span>
+        </h3>
+
+        <div class="grid grid-cols-1 sm:grid-cols-4 gap-4 mb-8">
+          <div>
+            <label class="block text-xs font-semibold text-slate-300 mb-1.5">Total Spend (कुल खर्च)</label>
+            <input type="text" id="ads-spend" class="w-full px-4 py-3 rounded-xl text-sm" />
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-slate-300 mb-1.5">Total Revenue (कुल रेवेन्यू)</label>
+            <input type="text" id="ads-revenue" class="w-full px-4 py-3 rounded-xl text-sm" />
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-slate-300 mb-1.5">Blended ROAS (एवरेज रिटर्न)</label>
+            <input type="text" id="ads-roas" class="w-full px-4 py-3 rounded-xl text-sm" />
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-slate-300 mb-1.5">Total Purchases (कुल ऑर्डर्स)</label>
+            <input type="text" id="ads-purchases" class="w-full px-4 py-3 rounded-xl text-sm" />
+          </div>
+        </div>
+
+        <h4 class="text-sm font-bold text-slate-200 mb-3">Active Campaigns List in Table</h4>
+        <div id="ads-campaigns-list" class="space-y-4">
+          <!-- Populated by JS -->
+        </div>
+      </div>
+    </div>
+
+    <!-- ================= TAB 5: PACKAGES & PRICING ================= -->
+    <div id="tab-packages" class="tab-content hidden space-y-6">
+      <div class="glass-panel rounded-2xl p-6 border border-slate-800">
+        <h3 class="text-lg font-bold font-heading text-white mb-4 flex items-center space-x-2">
+          <i class="fas fa-tags text-emerald-400"></i>
+          <span>Service Packages &amp; Pricing</span>
+        </h3>
+
+        <div id="packages-admin-list" class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          <!-- Populated by JS -->
+        </div>
+      </div>
+    </div>
+
+    <!-- ================= TAB 6: REVIEWS & FAQS ================= -->
+    <div id="tab-testimonials" class="tab-content hidden space-y-6">
+      <div class="glass-panel rounded-2xl p-6 border border-slate-800">
+        <h3 class="text-lg font-bold font-heading text-white mb-4 flex items-center space-x-2">
+          <i class="fas fa-comments text-amber-400"></i>
+          <span>Client Testimonials (क्लाइंट रिव्यू)</span>
+        </h3>
+        <div id="testimonials-admin-list" class="space-y-4">
+          <!-- Populated by JS -->
+        </div>
+      </div>
+    </div>
+
+    <!-- Bottom Floating Save Bar -->
+    <div class="fixed bottom-4 left-1/2 -translate-x-1/2 z-40 px-6 py-3.5 rounded-2xl bg-slate-900/95 border border-emerald-500/40 shadow-2xl backdrop-blur-xl flex items-center space-x-4">
+      <span class="text-xs text-slate-300 hidden sm:inline">बदलाव करने के बाद यहाँ से सेव करें:</span>
+      <button onclick="saveAllChanges()" class="px-6 py-2.5 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-500 hover:brightness-110 text-slate-950 font-extrabold text-xs transition shadow-lg shadow-emerald-500/25 flex items-center space-x-2">
+        <i class="fas fa-save"></i>
+        <span>Save Changes (लागू करें)</span>
+      </button>
+      <button onclick="downloadDataJs()" class="px-4 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-white font-bold text-xs border border-slate-700 transition">
+        <span>Download data.js</span>
+      </button>
+      <button onclick="resetDefaults()" class="text-xs text-red-400 hover:underline px-2" title="Reset all edits to original file">
+        Reset
+      </button>
+    </div>
+
+  </div>
+
+  <!-- SCRIPT -->
+  <script src="assets/js/data.js"></script>
+  <script>
+    // Working copy of data
+    let currentData = JSON.parse(JSON.stringify(portfolioData));
+
+    // Load custom data from localStorage if exists
+    if (localStorage.getItem('custom_portfolio_data')) {
+      try {
+        const saved = JSON.parse(localStorage.getItem('custom_portfolio_data'));
+        currentData = Object.assign(currentData, saved);
+      } catch (e) {
+        console.error(e);
+      }
+    }
+
+    // PIN Authentication
+    const correctPin = localStorage.getItem('admin_pin') || '1234';
+    const authScreen = document.getElementById('auth-screen');
+    const adminDashboard = document.getElementById('admin-dashboard');
+
+    // Auto-login if session token is set
+    if (sessionStorage.getItem('admin_logged_in') === 'true') {
+      authScreen.classList.add('hidden');
+      adminDashboard.classList.remove('hidden');
+      populateAdminFields();
+    }
+
+    document.getElementById('pin-form').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const entered = document.getElementById('admin-pin').value;
+      if (entered === correctPin) {
+        sessionStorage.setItem('admin_logged_in', 'true');
+        authScreen.classList.add('hidden');
+        adminDashboard.classList.remove('hidden');
+        populateAdminFields();
+      } else {
+        document.getElementById('pin-error').classList.remove('hidden');
+      }
+    });
+
+    function lockAdmin() {
+      sessionStorage.removeItem('admin_logged_in');
+      location.reload();
+    }
+
+    // Tab switcher
+    function switchTab(tabName) {
+      document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+      document.querySelectorAll('.admin-tab').forEach(el => el.classList.remove('active'));
+
+      const targetTab = document.getElementById(`tab-${tabName}`);
+      if (targetTab) targetTab.classList.remove('hidden');
+
+      // Set active button
+      event.currentTarget.classList.add('active');
+    }
+
+    // Populate all fields from currentData
+    function populateAdminFields() {
+      const p = currentData.personal;
+
+      // Avatar
+      const avatarUrl = p.avatar || 'assets/images/profile.jpg';
+      document.getElementById('avatar-preview-img').src = avatarUrl;
+      document.getElementById('nav-preview-avatar').src = avatarUrl;
+      document.getElementById('avatar-url-input').value = p.avatar || '';
+
+      // Profile details
+      document.getElementById('field-name').value = p.name || '';
+      document.getElementById('field-title').value = p.title || '';
+      document.getElementById('field-tagline').value = p.tagline || '';
+      document.getElementById('field-availability').value = p.availability || '';
+      document.getElementById('field-location').value = p.location || '';
+      document.getElementById('field-phone').value = p.phone || '';
+      document.getElementById('field-whatsapp').value = p.whatsappNumber || '';
+      document.getElementById('field-email').value = p.email || '';
+      document.getElementById('field-linkedin').value = p.socialLinks?.linkedin || '';
+      document.getElementById('field-instagram').value = p.socialLinks?.instagram || '';
+      document.getElementById('field-github').value = p.socialLinks?.github || '';
+
+      // Photo picker logic
+      document.getElementById('avatar-file-input').addEventListener('change', function(e) {
+        const file = e.target.files[0];
+        if (file) {
+          const reader = new FileReader();
+          reader.onload = function(event) {
+            const dataUrl = event.target.result;
+            document.getElementById('avatar-preview-img').src = dataUrl;
+            document.getElementById('nav-preview-avatar').src = dataUrl;
+            document.getElementById('avatar-url-input').value = dataUrl;
+          };
+          reader.readAsDataURL(file);
+        }
+      });
+
+      document.getElementById('avatar-url-input').addEventListener('input', function(e) {
+        const url = e.target.value.trim();
+        if (url) {
+          document.getElementById('avatar-preview-img').src = url;
+          document.getElementById('nav-preview-avatar').src = url;
+        }
+      });
+
+      // Stats
+      renderStatsInputs();
+
+      // Projects
+      renderProjectsList();
+
+      // Meta Ads
+      document.getElementById('ads-spend').value = currentData.adCampaignProof?.totalSpend || '';
+      document.getElementById('ads-revenue').value = currentData.adCampaignProof?.totalRevenue || '';
+      document.getElementById('ads-roas').value = currentData.adCampaignProof?.blendedRoas || '';
+      document.getElementById('ads-purchases').value = currentData.adCampaignProof?.totalPurchases || '';
+      renderAdsCampaignsList();
+
+      // Packages
+      renderPackagesList();
+
+      // Testimonials
+      renderTestimonialsList();
+    }
+
+    // Render Stats
+    function renderStatsInputs() {
+      const container = document.getElementById('stats-form-list');
+      container.innerHTML = currentData.stats.map((s, idx) => `
+        <div class="p-4 rounded-xl bg-slate-900/60 border border-slate-800 space-y-3">
+          <div class="text-xs font-bold text-emerald-400">Stat #${idx + 1}</div>
+          <div class="grid grid-cols-3 gap-2">
+            <div>
+              <label class="block text-[10px] text-slate-400">Prefix</label>
+              <input type="text" id="stat-prefix-${idx}" value="${s.prefix || ''}" class="w-full px-3 py-2 rounded-lg text-xs" />
+            </div>
+            <div>
+              <label class="block text-[10px] text-slate-400">Value (Number)</label>
+              <input type="number" step="0.1" id="stat-value-${idx}" value="${s.value}" class="w-full px-3 py-2 rounded-lg text-xs" />
+            </div>
+            <div>
+              <label class="block text-[10px] text-slate-400">Suffix (e.g. +, x, %)</label>
+              <input type="text" id="stat-suffix-${idx}" value="${s.suffix || ''}" class="w-full px-3 py-2 rounded-lg text-xs" />
+            </div>
+          </div>
+          <div>
+            <label class="block text-[10px] text-slate-400">Label Description</label>
+            <input type="text" id="stat-label-${idx}" value="${s.label}" class="w-full px-3 py-2 rounded-lg text-xs" />
+          </div>
+        </div>
+      `).join('');
+    }
+
+    // Render Projects
+    function renderProjectsList() {
+      const container = document.getElementById('projects-admin-list');
+      container.innerHTML = currentData.projects.map((p, idx) => `
+        <div class="p-5 rounded-2xl bg-slate-900/60 border border-slate-800 space-y-4">
+          <div class="flex items-center justify-between pb-3 border-b border-slate-800">
+            <div class="flex items-center space-x-3">
+              <img src="${p.image}" class="w-12 h-12 rounded-xl object-cover border border-slate-700" onerror="this.src='assets/images/ecommerce.jpg'" />
+              <div>
+                <h4 class="text-sm font-bold text-white">${p.title}</h4>
+                <span class="text-xs text-emerald-400">${p.metrics.highlight}</span>
+              </div>
+            </div>
+            <button onclick="deleteProject(${p.id})" class="text-red-400 hover:text-red-300 text-xs font-bold px-3 py-1.5 rounded-lg bg-red-500/10 hover:bg-red-500/20 border border-red-500/20">
+              <i class="fas fa-trash-alt mr-1"></i> Delete
+            </button>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+            <div>
+              <label class="block text-[11px] text-slate-400">Project Title</label>
+              <input type="text" id="proj-title-${idx}" value="${p.title}" class="w-full px-3 py-2 rounded-lg text-xs" />
+            </div>
+            <div>
+              <label class="block text-[11px] text-slate-400">Category (web / marketing / both)</label>
+              <select id="proj-category-${idx}" class="w-full px-3 py-2 rounded-lg text-xs">
+                <option value="both" ${p.category === 'both' ? 'selected' : ''}>both (Web + Ads)</option>
+                <option value="web" ${p.category === 'web' ? 'selected' : ''}>web (Web Development)</option>
+                <option value="marketing" ${p.category === 'marketing' ? 'selected' : ''}>marketing (Meta Ads & Social)</option>
+              </select>
+            </div>
+            <div class="md:col-span-2">
+              <label class="block text-[11px] text-slate-400">Tagline / Subtitle</label>
+              <input type="text" id="proj-tagline-${idx}" value="${p.tagline}" class="w-full px-3 py-2 rounded-lg text-xs" />
+            </div>
+            <div class="md:col-span-2">
+              <label class="block text-[11px] text-slate-400">Image Path / URL</label>
+              <input type="text" id="proj-image-${idx}" value="${p.image}" class="w-full px-3 py-2 rounded-lg text-xs" />
+            </div>
+            <div>
+              <label class="block text-[11px] text-slate-400">Highlight Metric (e.g. 5.4x ROAS)</label>
+              <input type="text" id="proj-metric1-${idx}" value="${p.metrics.highlight}" class="w-full px-3 py-2 rounded-lg text-xs" />
+            </div>
+            <div>
+              <label class="block text-[11px] text-slate-400">Secondary Metric (e.g. ₹18.4L Revenue)</label>
+              <input type="text" id="proj-metric2-${idx}" value="${p.metrics.secondary}" class="w-full px-3 py-2 rounded-lg text-xs" />
+            </div>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function addNewProject() {
+      const newId = Date.now();
+      currentData.projects.unshift({
+        id: newId,
+        title: "New Client Project",
+        tagline: "High-Converting Storefront & Scale Ads",
+        category: "both",
+        image: "assets/images/ecommerce.jpg",
+        liveUrl: "#",
+        browserUrl: "https://new-project.live",
+        tags: ["React", "Tailwind", "Meta Ads"],
+        metrics: {
+          highlight: "4.8x ROAS",
+          secondary: "₹12L Revenue",
+          extra: "0.8s Load"
+        },
+        problem: "Client needed a high converting store.",
+        solution: "Engineered fast landing page + target ads.",
+        results: ["Generated profitable sales from day 1"]
+      });
+      renderProjectsList();
+    }
+
+    function deleteProject(id) {
+      if (confirm("क्या आप वाकई इस प्रोजेक्ट को डिलीट करना चाहते हैं?")) {
+        currentData.projects = currentData.projects.filter(p => p.id !== id);
+        renderProjectsList();
+      }
+    }
+
+    // Render Ads Campaigns
+    function renderAdsCampaignsList() {
+      const container = document.getElementById('ads-campaigns-list');
+      const campaigns = currentData.adCampaignProof?.campaigns || [];
+      container.innerHTML = campaigns.map((c, idx) => `
+        <div class="p-3.5 rounded-xl bg-slate-900/60 border border-slate-800 grid grid-cols-1 sm:grid-cols-5 gap-2 text-xs">
+          <div class="sm:col-span-2">
+            <label class="block text-[10px] text-slate-400">Campaign Name</label>
+            <input type="text" id="ad-camp-name-${idx}" value="${c.name}" class="w-full px-2.5 py-1.5 rounded text-xs" />
+          </div>
+          <div>
+            <label class="block text-[10px] text-slate-400">Spend</label>
+            <input type="text" id="ad-camp-spend-${idx}" value="${c.spend}" class="w-full px-2.5 py-1.5 rounded text-xs" />
+          </div>
+          <div>
+            <label class="block text-[10px] text-slate-400">Revenue / Leads</label>
+            <input type="text" id="ad-camp-rev-${idx}" value="${c.revenue || c.leads}" class="w-full px-2.5 py-1.5 rounded text-xs" />
+          </div>
+          <div>
+            <label class="block text-[10px] text-slate-400">ROAS / CPL</label>
+            <input type="text" id="ad-camp-roas-${idx}" value="${c.roas || c.cpl}" class="w-full px-2.5 py-1.5 rounded text-xs" />
+          </div>
+        </div>
+      `).join('');
+    }
+
+    // Render Packages
+    function renderPackagesList() {
+      const container = document.getElementById('packages-admin-list');
+      container.innerHTML = currentData.packages.map((pkg, idx) => `
+        <div class="p-5 rounded-2xl bg-slate-900/60 border border-slate-800 space-y-3">
+          <h4 class="text-xs font-bold text-emerald-400">Package #${idx + 1}</h4>
+          <div>
+            <label class="block text-[10px] text-slate-400">Package Name</label>
+            <input type="text" id="pkg-name-${idx}" value="${pkg.name}" class="w-full px-3 py-2 rounded-lg text-xs" />
+          </div>
+          <div>
+            <label class="block text-[10px] text-slate-400">Subtitle</label>
+            <input type="text" id="pkg-sub-${idx}" value="${pkg.subtitle}" class="w-full px-3 py-2 rounded-lg text-xs" />
+          </div>
+          <div>
+            <label class="block text-[10px] text-slate-400">Price (e.g. ₹24,999)</label>
+            <input type="text" id="pkg-price-${idx}" value="${pkg.price}" class="w-full px-3 py-2 rounded-lg text-xs font-bold" />
+          </div>
+          <div>
+            <label class="block text-[10px] text-slate-400">Billing Period (e.g. monthly / kickoff)</label>
+            <input type="text" id="pkg-period-${idx}" value="${pkg.period}" class="w-full px-3 py-2 rounded-lg text-xs" />
+          </div>
+        </div>
+      `).join('');
+    }
+
+    // Render Testimonials
+    function renderTestimonialsList() {
+      const container = document.getElementById('testimonials-admin-list');
+      container.innerHTML = currentData.testimonials.map((t, idx) => `
+        <div class="p-4 rounded-xl bg-slate-900/60 border border-slate-800 space-y-2">
+          <div class="grid grid-cols-2 gap-2">
+            <div>
+              <label class="block text-[10px] text-slate-400">Client Name</label>
+              <input type="text" id="test-name-${idx}" value="${t.name}" class="w-full px-3 py-2 rounded-lg text-xs" />
+            </div>
+            <div>
+              <label class="block text-[10px] text-slate-400">Company / Designation</label>
+              <input type="text" id="test-comp-${idx}" value="${t.company}" class="w-full px-3 py-2 rounded-lg text-xs" />
+            </div>
+          </div>
+          <div>
+            <label class="block text-[10px] text-slate-400">Client Review Text</label>
+            <textarea id="test-rev-${idx}" rows="2" class="w-full px-3 py-2 rounded-lg text-xs">${t.review}</textarea>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    // Gather all updated fields into currentData
+    function gatherAllFields() {
+      // Profile
+      currentData.personal.avatar = document.getElementById('avatar-url-input').value.trim() || 'assets/images/profile.jpg';
+      currentData.personal.name = document.getElementById('field-name').value.trim();
+      currentData.personal.title = document.getElementById('field-title').value.trim();
+      currentData.personal.tagline = document.getElementById('field-tagline').value.trim();
+      currentData.personal.availability = document.getElementById('field-availability').value.trim();
+      currentData.personal.location = document.getElementById('field-location').value.trim();
+      currentData.personal.phone = document.getElementById('field-phone').value.trim();
+      currentData.personal.whatsappNumber = document.getElementById('field-whatsapp').value.trim();
+      currentData.personal.email = document.getElementById('field-email').value.trim();
+      if (!currentData.personal.socialLinks) currentData.personal.socialLinks = {};
+      currentData.personal.socialLinks.linkedin = document.getElementById('field-linkedin').value.trim();
+      currentData.personal.socialLinks.instagram = document.getElementById('field-instagram').value.trim();
+      currentData.personal.socialLinks.github = document.getElementById('field-github').value.trim();
+
+      // Stats
+      currentData.stats.forEach((s, idx) => {
+        const valEl = document.getElementById(`stat-value-${idx}`);
+        const preEl = document.getElementById(`stat-prefix-${idx}`);
+        const sufEl = document.getElementById(`stat-suffix-${idx}`);
+        const lblEl = document.getElementById(`stat-label-${idx}`);
+        if (valEl) s.value = parseFloat(valEl.value) || 0;
+        if (preEl) s.prefix = preEl.value;
+        if (sufEl) s.suffix = sufEl.value;
+        if (lblEl) s.label = lblEl.value;
+      });
+
+      // Projects
+      currentData.projects.forEach((p, idx) => {
+        const titleEl = document.getElementById(`proj-title-${idx}`);
+        const catEl = document.getElementById(`proj-category-${idx}`);
+        const tagEl = document.getElementById(`proj-tagline-${idx}`);
+        const imgEl = document.getElementById(`proj-image-${idx}`);
+        const m1El = document.getElementById(`proj-metric1-${idx}`);
+        const m2El = document.getElementById(`proj-metric2-${idx}`);
+        if (titleEl) p.title = titleEl.value;
+        if (catEl) p.category = catEl.value;
+        if (tagEl) p.tagline = tagEl.value;
+        if (imgEl) p.image = imgEl.value;
+        if (m1El) p.metrics.highlight = m1El.value;
+        if (m2El) p.metrics.secondary = m2El.value;
+      });
+
+      // Ads Proof
+      if (!currentData.adCampaignProof) currentData.adCampaignProof = {};
+      currentData.adCampaignProof.totalSpend = document.getElementById('ads-spend').value;
+      currentData.adCampaignProof.totalRevenue = document.getElementById('ads-revenue').value;
+      currentData.adCampaignProof.blendedRoas = document.getElementById('ads-roas').value;
+      currentData.adCampaignProof.totalPurchases = document.getElementById('ads-purchases').value;
+      (currentData.adCampaignProof.campaigns || []).forEach((c, idx) => {
+        const nameEl = document.getElementById(`ad-camp-name-${idx}`);
+        const spendEl = document.getElementById(`ad-camp-spend-${idx}`);
+        const revEl = document.getElementById(`ad-camp-rev-${idx}`);
+        const roasEl = document.getElementById(`ad-camp-roas-${idx}`);
+        if (nameEl) c.name = nameEl.value;
+        if (spendEl) c.spend = spendEl.value;
+        if (revEl) {
+          if (c.revenue) c.revenue = revEl.value;
+          else c.leads = revEl.value;
+        }
+        if (roasEl) {
+          if (c.roas) c.roas = roasEl.value;
+          else c.cpl = roasEl.value;
+        }
+      });
+
+      // Packages
+      currentData.packages.forEach((pkg, idx) => {
+        const n = document.getElementById(`pkg-name-${idx}`);
+        const s = document.getElementById(`pkg-sub-${idx}`);
+        const p = document.getElementById(`pkg-price-${idx}`);
+        const pr = document.getElementById(`pkg-period-${idx}`);
+        if (n) pkg.name = n.value;
+        if (s) pkg.subtitle = s.value;
+        if (p) pkg.price = p.value;
+        if (pr) pkg.period = pr.value;
+      });
+
+      // Testimonials
+      currentData.testimonials.forEach((t, idx) => {
+        const n = document.getElementById(`test-name-${idx}`);
+        const c = document.getElementById(`test-comp-${idx}`);
+        const r = document.getElementById(`test-rev-${idx}`);
+        if (n) t.name = n.value;
+        if (c) t.company = c.value;
+        if (r) t.review = r.value;
+      });
+    }
+
+    // Save to LocalStorage
+    function saveAllChanges() {
+      gatherAllFields();
+      localStorage.setItem('custom_portfolio_data', JSON.stringify(currentData));
+
+      // Show toast
+      const toast = document.getElementById('save-toast');
+      toast.classList.remove('hidden');
+      setTimeout(() => {
+        toast.classList.add('hidden');
+      }, 3500);
+    }
+
+    // Generate valid JavaScript file content
+    function generateJsString() {
+      gatherAllFields();
+      return `// ==========================================
+// PORTFOLIO CONFIGURATION & DATA
+// Generated by Admin Dashboard
+// ==========================================
+
+const portfolioData = ${JSON.stringify(currentData, null, 2)};
+`;
+    }
+
+    // Download data.js
+    function downloadDataJs() {
+      const content = generateJsString();
+      const blob = new Blob([content], { type: 'application/javascript;charset=utf-8' });
+      const link = document.createElement('a');
+      link.href = URL.createObjectURL(blob);
+      link.download = 'data.js';
+      link.click();
+    }
+
+    // Copy Code to Clipboard
+    function copyDataCode() {
+      const content = generateJsString();
+      navigator.clipboard.writeText(content).then(() => {
+        alert("✅ data.js का पूरा नया कोड क्लिपबोर्ड पर कॉपी हो गया है!");
+      });
+    }
+
+    // Reset Defaults
+    function resetDefaults() {
+      if (confirm("क्या आप वाकई सभी कस्टम बदलाव रीसेट करके डिफ़ॉल्ट पर लौटना चाहते हैं?")) {
+        localStorage.removeItem('custom_portfolio_data');
+        location.reload();
+      }
+    }
+  </script>
+</body>
+</html>

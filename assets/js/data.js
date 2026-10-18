@@ -10,6 +10,7 @@ const portfolioData = {
     tagline: "I build high-converting websites and scale revenue with profitable Meta Ads & Social Media strategies.",
     experienceYears: "3+",
     availability: "Available for Freelance & Monthly Retainers",
+    avatar: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=400&auto=format&fit=crop&q=80", // Apni photo ka URL ya assets/images/profile.jpg
     email: "arpitsaini974@gmail.com",
     phone: "+91 8000795118 / +91 9783563910",
     whatsappNumber: "919783563910", // WhatsApp number with country code (91)

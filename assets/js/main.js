@@ -1,6 +1,15 @@
-// ==========================================
-// MAIN PORTFOLIO CONTROLLER & INTERACTIONS
-// ==========================================
+// Load custom data from localStorage if updated by Admin Dashboard
+if (typeof localStorage !== 'undefined') {
+  const savedData = localStorage.getItem('custom_portfolio_data');
+  if (savedData) {
+    try {
+      const parsed = JSON.parse(savedData);
+      Object.assign(portfolioData, parsed);
+    } catch (e) {
+      console.warn("Could not load custom portfolio data from localStorage", e);
+    }
+  }
+}
 
 document.addEventListener("DOMContentLoaded", () => {
   initPersonalData();
@@ -37,6 +46,13 @@ function initPersonalData() {
     if (el.tagName === 'A') el.href = `tel:${p.phone.replace(/\s+/g, '')}`;
   });
   document.querySelectorAll("[data-bind='availability']").forEach(el => el.textContent = p.availability);
+
+  // Update Avatar / Photo
+  if (p.avatar) {
+    document.querySelectorAll("[data-bind='avatar']").forEach(img => {
+      img.src = p.avatar;
+    });
+  }
 
   // Setup WhatsApp Links
   const waUrl = `https://wa.me/${p.whatsappNumber}?text=${encodeURIComponent(p.whatsappPreFilledMsg)}`;

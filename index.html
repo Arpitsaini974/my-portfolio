@@ -41,14 +41,19 @@
     <span class="tooltip-text">Chat on WhatsApp (Quick Reply)</span>
   </a>
 
-  <!-- FLOATING THEME TOGGLE (Moves with screen as you scroll) -->
-  <div class="floating-theme-toggle">
-    <button id="floating-theme-btn" class="theme-switch-pill" title="Toggle Light / Dark Mode (थीम बदलें)">
-      <span class="theme-icon-box">
-        <i id="floating-theme-icon" class="fas fa-moon text-indigo-400"></i>
-      </span>
-      <span id="floating-theme-text">Dark Mode</span>
-    </button>
+  <!-- FLOATING SLIDING THEME SWITCHER (Always with you as you scroll) -->
+  <div class="floating-theme-widget" id="floating-theme-widget">
+    <div class="theme-slider-switch" id="theme-slider-switch" role="button" tabindex="0" title="Click to Switch Light / Dark Mode (थीम बदलें)">
+      <div class="slider-indicator" id="slider-indicator"></div>
+      <div class="switch-opt switch-light" id="opt-light">
+        <i class="fas fa-sun text-amber-500"></i>
+        <span>Light</span>
+      </div>
+      <div class="switch-opt switch-dark" id="opt-dark">
+        <i class="fas fa-moon text-indigo-400"></i>
+        <span>Dark</span>
+      </div>
+    </div>
   </div>
 
   <!-- TOP ANNOUNCEMENT BAR -->
@@ -86,19 +91,13 @@
         <a href="#packages" class="hover:text-emerald-400 transition">Packages</a>
       </nav>
 
-      <!-- Header CTAs & Theme Toggle -->
-      <div class="flex items-center space-x-2.5 sm:space-x-3">
-        <!-- Theme Toggle Button -->
-        <button id="theme-toggle-btn" class="p-2 sm:px-3 sm:py-2 rounded-xl bg-slate-800/80 hover:bg-slate-700 text-slate-300 hover:text-white border border-slate-700/60 transition flex items-center space-x-1.5 text-xs font-semibold cursor-pointer" title="Toggle Light / Dark Mode">
-          <i id="theme-toggle-icon" class="fas fa-sun text-amber-400"></i>
-          <span id="theme-toggle-text" class="hidden sm:inline">Light Mode</span>
-        </button>
-
-        <a href="#" class="hidden sm:flex whatsapp-link px-4 py-2 rounded-xl bg-emerald-500/10 hover:bg-emerald-500 text-emerald-400 hover:text-slate-950 font-semibold text-xs border border-emerald-500/25 transition items-center space-x-2">
+      <!-- Header CTAs -->
+      <div class="hidden sm:flex items-center space-x-3">
+        <a href="#" class="whatsapp-link px-4 py-2 rounded-xl bg-emerald-500/10 hover:bg-emerald-500 text-emerald-400 hover:text-slate-950 font-semibold text-xs border border-emerald-500/25 transition flex items-center space-x-2">
           <i class="fab fa-whatsapp text-sm"></i>
           <span>WhatsApp Chat</span>
         </a>
-        <a href="#contact" class="hidden sm:inline-block px-4 py-2 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold text-xs transition shadow-md shadow-emerald-500/15">
+        <a href="#contact" class="px-4 py-2 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold text-xs transition shadow-md shadow-emerald-500/15">
           Book Free Strategy Call
         </a>
       </div>
@@ -119,10 +118,6 @@
       <a href="#packages" class="mobile-nav-link block text-sm font-medium text-slate-200 hover:text-emerald-400">Packages &amp; Pricing</a>
       <a href="#contact" class="mobile-nav-link block text-sm font-medium text-slate-200 hover:text-emerald-400">Contact &amp; Book Call</a>
       <div class="pt-4 border-t border-slate-800 space-y-3">
-        <button id="theme-toggle-mobile-btn" class="w-full py-2.5 px-4 rounded-xl bg-slate-800 text-slate-200 text-sm font-semibold border border-slate-700 flex items-center justify-center space-x-2 cursor-pointer">
-          <i id="theme-toggle-mobile-icon" class="fas fa-sun text-amber-400"></i>
-          <span id="theme-toggle-mobile-text">Switch to Light Theme</span>
-        </button>
         <a href="#" class="whatsapp-link w-full py-3 rounded-xl bg-emerald-500 text-slate-950 font-bold text-center text-sm flex items-center justify-center space-x-2">
           <i class="fab fa-whatsapp"></i>
           <span>Chat on WhatsApp</span>

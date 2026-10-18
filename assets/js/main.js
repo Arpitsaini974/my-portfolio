@@ -523,36 +523,17 @@ function initMobileNav() {
   });
 }
 
-// 14. Light / Dark Theme Switcher (Floating + Navbar)
+// 14. Light / Dark Theme Switcher (Animated Moving Slider)
 function initThemeSwitcher() {
-  const floatingBtn = document.getElementById("floating-theme-btn");
-  const floatingIcon = document.getElementById("floating-theme-icon");
-  const floatingText = document.getElementById("floating-theme-text");
-
-  const desktopBtn = document.getElementById("theme-toggle-btn");
-  const mobileBtn = document.getElementById("theme-toggle-mobile-btn");
-  const desktopIcon = document.getElementById("theme-toggle-icon");
-  const desktopText = document.getElementById("theme-toggle-text");
-  const mobileIcon = document.getElementById("theme-toggle-mobile-icon");
-  const mobileText = document.getElementById("theme-toggle-mobile-text");
+  const sliderSwitch = document.getElementById("theme-slider-switch");
+  const optLight = document.getElementById("opt-light");
+  const optDark = document.getElementById("opt-dark");
 
   function applyTheme(theme) {
     if (theme === "light") {
       document.body.classList.add("theme-light");
-      if (floatingIcon) floatingIcon.className = "fas fa-moon text-indigo-400";
-      if (floatingText) floatingText.textContent = "Dark Mode";
-      if (desktopIcon) desktopIcon.className = "fas fa-moon text-indigo-400";
-      if (desktopText) desktopText.textContent = "Dark Mode";
-      if (mobileIcon) mobileIcon.className = "fas fa-moon text-indigo-400";
-      if (mobileText) mobileText.textContent = "Switch to Dark Theme";
     } else {
       document.body.classList.remove("theme-light");
-      if (floatingIcon) floatingIcon.className = "fas fa-sun text-amber-400";
-      if (floatingText) floatingText.textContent = "Light Mode";
-      if (desktopIcon) desktopIcon.className = "fas fa-sun text-amber-400";
-      if (desktopText) desktopText.textContent = "Light Mode";
-      if (mobileIcon) mobileIcon.className = "fas fa-sun text-amber-400";
-      if (mobileText) mobileText.textContent = "Switch to Light Theme";
     }
     try {
       localStorage.setItem("theme_preference", theme);
@@ -565,12 +546,24 @@ function initThemeSwitcher() {
   const savedTheme = localStorage.getItem("theme_preference") || "light";
   applyTheme(savedTheme);
 
-  function toggle() {
-    const isCurrentlyLight = document.body.classList.contains("theme-light");
-    applyTheme(isCurrentlyLight ? "dark" : "light");
+  if (sliderSwitch) {
+    sliderSwitch.addEventListener("click", () => {
+      const isCurrentlyLight = document.body.classList.contains("theme-light");
+      applyTheme(isCurrentlyLight ? "dark" : "light");
+    });
   }
 
-  if (floatingBtn) floatingBtn.addEventListener("click", toggle);
-  if (desktopBtn) desktopBtn.addEventListener("click", toggle);
-  if (mobileBtn) mobileBtn.addEventListener("click", toggle);
+  if (optLight) {
+    optLight.addEventListener("click", (e) => {
+      e.stopPropagation();
+      applyTheme("light");
+    });
+  }
+
+  if (optDark) {
+    optDark.addEventListener("click", (e) => {
+      e.stopPropagation();
+      applyTheme("dark");
+    });
+  }
 }

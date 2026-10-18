@@ -350,67 +350,108 @@ img, video {
 }
 
 /* ========================================================
-   FLOATING THEME TOGGLE WIDGET (Moves with you as you scroll)
+   FLOATING SLIDING THEME SWITCHER (Animated Moving Slider)
+   Floats with the screen as you scroll, with an animated moving pill!
    ======================================================== */
 
-.floating-theme-toggle {
+.floating-theme-widget {
   position: fixed;
   bottom: 24px;
   left: 24px;
-  z-index: 998;
+  z-index: 9999;
   display: flex;
   align-items: center;
 }
 
-.theme-switch-pill {
-  display: inline-flex;
+.theme-slider-switch {
+  position: relative;
+  display: flex;
   align-items: center;
-  gap: 8px;
-  padding: 8px 16px;
+  background: rgba(15, 23, 42, 0.92);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  padding: 4px;
   border-radius: 9999px;
-  background: rgba(15, 23, 42, 0.88);
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
-  border: 1px solid rgba(255, 255, 255, 0.16);
-  box-shadow: 0 10px 25px -4px rgba(0, 0, 0, 0.5), 0 0 1px 1px rgba(255, 255, 255, 0.08);
-  color: #f1f5f9;
-  font-size: 0.8rem;
-  font-weight: 700;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  box-shadow: 0 12px 30px -4px rgba(0, 0, 0, 0.65), 0 0 1px 1px rgba(255, 255, 255, 0.1);
   cursor: pointer;
-  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
   user-select: none;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.theme-switch-pill:hover {
-  transform: translateY(-2px) scale(1.04);
-  box-shadow: 0 14px 30px -4px rgba(0, 0, 0, 0.6), 0 0 16px rgba(16, 185, 129, 0.25);
+.theme-slider-switch:hover {
+  transform: translateY(-2px) scale(1.03);
+  box-shadow: 0 16px 36px -4px rgba(0, 0, 0, 0.75), 0 0 16px rgba(16, 185, 129, 0.3);
   border-color: rgba(16, 185, 129, 0.45);
 }
 
-.theme-icon-box {
+/* Moving Slider Indicator */
+.slider-indicator {
+  position: absolute;
+  top: 4px;
+  left: 4px;
+  width: calc(50% - 4px);
+  height: calc(100% - 8px);
+  border-radius: 9999px;
+  background: #10b981;
+  box-shadow: 0 2px 10px rgba(16, 185, 129, 0.45);
+  transition: transform 0.35s cubic-bezier(0.34, 1.4, 0.64, 1), background-color 0.25s ease;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* When dark mode is active: indicator moves to the right */
+body:not(.theme-light) .slider-indicator {
+  transform: translateX(100%);
+  background: #3b82f6;
+  box-shadow: 0 2px 10px rgba(59, 130, 246, 0.45);
+}
+
+/* When light mode is active: indicator moves to the left */
+body.theme-light .slider-indicator {
+  transform: translateX(0%);
+  background: #10b981;
+}
+
+.switch-opt {
+  position: relative;
+  z-index: 2;
   display: flex;
   align-items: center;
-  justify-content: center;
-  width: 24px;
-  height: 24px;
-  border-radius: 50%;
-  background: rgba(255, 255, 255, 0.12);
-  font-size: 0.75rem;
+  gap: 6px;
+  padding: 6px 14px;
+  border-radius: 9999px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: #94a3b8;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  transition: color 0.25s ease;
+}
+
+body.theme-light .switch-opt.switch-light {
+  color: #0f172a;
+}
+body:not(.theme-light) .switch-opt.switch-dark {
+  color: #ffffff;
+}
+
+body.theme-light .theme-slider-switch {
+  background: rgba(255, 255, 255, 0.94) !important;
+  border: 1px solid #cbd5e1 !important;
+  box-shadow: 0 12px 30px -4px rgba(15, 23, 42, 0.15), 0 0 1px 1px rgba(0, 0, 0, 0.05) !important;
 }
 
 @media (max-width: 640px) {
-  .floating-theme-toggle {
+  .floating-theme-widget {
     bottom: 16px;
     left: 16px;
   }
-  .theme-switch-pill {
-    padding: 7px 13px;
-    font-size: 0.75rem;
-    gap: 6px;
-  }
-  .theme-icon-box {
-    width: 22px;
-    height: 22px;
+  .switch-opt {
+    padding: 5px 11px;
+    font-size: 0.72rem;
+    gap: 4px;
   }
 }
 

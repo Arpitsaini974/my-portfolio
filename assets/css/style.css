@@ -546,10 +546,30 @@ body.theme-light header {
   border-color: #e2e8f0 !important;
   box-shadow: 0 2px 12px rgba(15, 23, 42, 0.04) !important;
 }
+body.theme-light header [data-bind="name"],
+body.theme-light header .font-heading,
+body.theme-light header a span.text-white,
+body.theme-light .header-logo-name {
+  color: #0f172a !important;
+}
+body.theme-light header a:hover [data-bind="name"],
+body.theme-light header a:hover .font-heading,
+body.theme-light header a:hover .header-logo-name {
+  color: #059669 !important;
+}
+body.theme-light header span.text-slate-400 {
+  color: #64748b !important;
+}
 body.theme-light nav a {
   color: #475569 !important;
 }
 body.theme-light nav a:hover {
+  color: #059669 !important;
+}
+body.theme-light #mobile-menu-btn {
+  color: #0f172a !important;
+}
+body.theme-light #mobile-menu-btn:hover {
   color: #059669 !important;
 }
 body.theme-light #mobile-nav-drawer {

@@ -26,6 +26,7 @@ document.addEventListener("DOMContentLoaded", () => {
   initMobileNav();
   initCaseStudyModal();
   initHeaderPhotoUpload();
+  initThemeSwitcher();
 });
 
 // 1. Populate Personal & Brand Details
@@ -581,4 +582,47 @@ function initHeaderPhotoUpload() {
     };
     reader.readAsDataURL(file);
   });
+}
+
+// 15. Light / Dark Theme Switcher
+function initThemeSwitcher() {
+  const desktopBtn = document.getElementById("theme-toggle-btn");
+  const mobileBtn = document.getElementById("theme-toggle-mobile-btn");
+  const desktopIcon = document.getElementById("theme-toggle-icon");
+  const desktopText = document.getElementById("theme-toggle-text");
+  const mobileIcon = document.getElementById("theme-toggle-mobile-icon");
+  const mobileText = document.getElementById("theme-toggle-mobile-text");
+
+  function applyTheme(theme) {
+    if (theme === "light") {
+      document.body.classList.add("theme-light");
+      if (desktopIcon) desktopIcon.className = "fas fa-moon text-indigo-400";
+      if (desktopText) desktopText.textContent = "Dark Mode";
+      if (mobileIcon) mobileIcon.className = "fas fa-moon text-indigo-400";
+      if (mobileText) mobileText.textContent = "Switch to Dark Theme";
+    } else {
+      document.body.classList.remove("theme-light");
+      if (desktopIcon) desktopIcon.className = "fas fa-sun text-amber-400";
+      if (desktopText) desktopText.textContent = "Light Mode";
+      if (mobileIcon) mobileIcon.className = "fas fa-sun text-amber-400";
+      if (mobileText) mobileText.textContent = "Switch to Light Theme";
+    }
+    try {
+      localStorage.setItem("theme_preference", theme);
+    } catch (e) {
+      console.warn("Could not save theme preference", e);
+    }
+  }
+
+  // Check saved preference or default to light so user can test right away
+  const savedTheme = localStorage.getItem("theme_preference") || "light";
+  applyTheme(savedTheme);
+
+  function toggle() {
+    const isCurrentlyLight = document.body.classList.contains("theme-light");
+    applyTheme(isCurrentlyLight ? "dark" : "light");
+  }
+
+  if (desktopBtn) desktopBtn.addEventListener("click", toggle);
+  if (mobileBtn) mobileBtn.addEventListener("click", toggle);
 }

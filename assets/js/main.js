@@ -480,6 +480,22 @@ function initContactForm() {
     const fullMsg = `*New Portfolio Lead Inquiry*\n\n*Name:* ${name}\n*Phone:* ${phone}\n*Service Interested:* ${service}\n*Project Details:* ${message}`;
     const waUrl = `https://wa.me/${portfolioData.personal.whatsappNumber}?text=${encodeURIComponent(fullMsg)}`;
 
+    // Save lead to local Leads Inbox
+    try {
+      const existingLeads = JSON.parse(localStorage.getItem('portfolio_leads') || '[]');
+      existingLeads.unshift({
+        id: Date.now(),
+        date: new Date().toLocaleString('en-IN', { dateStyle: 'medium', timeStyle: 'short' }),
+        name: name,
+        phone: phone,
+        service: service,
+        message: message || 'No message provided'
+      });
+      localStorage.setItem('portfolio_leads', JSON.stringify(existingLeads));
+    } catch(err) {
+      console.warn("Could not save lead locally", err);
+    }
+
     if (formSuccess) {
       formSuccess.classList.remove("hidden");
     }
